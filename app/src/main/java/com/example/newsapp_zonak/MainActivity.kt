@@ -1,5 +1,6 @@
 package com.example.newsapp_zonak
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,9 +16,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.newsapp_zonak.ui.ArticleDetailsScreen
-import com.example.newsapp_zonak.ui.HomeNewsScreen
-import com.example.newsapp_zonak.ui.NewsViewModel
+import com.example.newsapp_zonak.ui.screens.ArticleDetailsScreen
+import com.example.newsapp_zonak.ui.screens.HomeNewsScreen
+import com.example.newsapp_zonak.ui.viewmodel.NewsViewModel
 import com.example.newsapp_zonak.ui.theme.Newsapp_zonakTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +31,6 @@ class MainActivity : ComponentActivity() {
             Newsapp_zonakTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val navController = rememberNavController()
-                    // Pass both innerPadding and a base Modifier
                     AppNavHost(navController = navController, modifier = Modifier.padding(innerPadding))
                 }
             }
@@ -50,13 +50,13 @@ class MainActivity : ComponentActivity() {
                 )
             }
             composable("article_details/{articleUrl}") { backStackEntry ->
-                val articleUrl = backStackEntry.arguments?.getString("articleUrl") ?: return@composable
+                val encodedArticleUrl = backStackEntry.arguments?.getString("articleUrl") ?: return@composable
+                val articleUrl = Uri.decode(encodedArticleUrl)
                 val article = newsState.topHeadlines.find { it.url == articleUrl }
                 if (article != null) {
                     ArticleDetailsScreen(
                         article = article,
                         navController = navController,
-                        modifier = modifier
                     )
                 }
             }

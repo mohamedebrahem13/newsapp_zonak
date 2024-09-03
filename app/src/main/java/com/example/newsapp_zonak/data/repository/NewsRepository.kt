@@ -13,7 +13,4 @@ class NewsRepository @Inject constructor(private val newsRemoteDs: NewsRemoteDs)
         return ArticleMapper.dtoListToDomain(responseDto.articles)
     }
 
-    override suspend fun getAvailableCategories(): List<String> {
-        return newsRemoteDs.getAvailableCategories()
-    }
 }

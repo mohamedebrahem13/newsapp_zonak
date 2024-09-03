@@ -3,7 +3,6 @@ package com.example.newsapp_zonak.di
 import com.example.newsapp_zonak.data.repository.NewsRepository
 import com.example.newsapp_zonak.data.repository.remote.NewsApiService
 import com.example.newsapp_zonak.data.repository.remote.NewsRemoteDs
-import com.example.newsapp_zonak.domain.intractor.GetAvailableCategoriesUseCase
 import com.example.newsapp_zonak.domain.intractor.GetTopHeadlinesUseCase
 import com.example.newsapp_zonak.domain.repository.INewsRepository
 import com.example.newsapp_zonak.domain.repository.remote.INewsRemoteDs
@@ -30,8 +29,5 @@ object NewsModule {
         return GetTopHeadlinesUseCase(newsRepository)
     }
 
-    @Provides
-    fun provideGetAvailableCategoriesUseCase(newsRepository: INewsRepository): GetAvailableCategoriesUseCase {
-        return GetAvailableCategoriesUseCase(newsRepository)
-    }
+
 }

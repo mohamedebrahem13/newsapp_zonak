@@ -9,8 +9,4 @@ class NewsRemoteDs @Inject constructor(private val newsApiService: NewsApiServic
         return newsApiService.getTopHeadlines(category)
     }
 
-    override suspend fun getAvailableCategories(): List<String> {
-        return newsApiService.getAvailableCategories()
-    }
-
 }

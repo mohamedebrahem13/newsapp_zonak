@@ -1,4 +1,4 @@
-package com.example.newsapp_zonak.ui
+package com.example.newsapp_zonak.ui.items
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,10 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.newsapp_zonak.domain.models.NewsCategory
 
 @Composable
 fun CategoryItem(
-    category: String,
+    category: NewsCategory, // Updated to use NewsCategory
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -42,7 +43,7 @@ fun CategoryItem(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text = category,
+            text = category.name, // Use the name property of the NewsCategory
             color = textColor,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center

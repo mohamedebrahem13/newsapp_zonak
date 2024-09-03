@@ -11,6 +11,4 @@ interface NewsApiService {
         @Path("category") category: String
     ): NewsResponseDto
 
-    @GET("available-categories.json")
-    suspend fun getAvailableCategories(): List<String>
 }

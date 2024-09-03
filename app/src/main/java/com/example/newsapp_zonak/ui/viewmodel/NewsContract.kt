@@ -1,4 +1,4 @@
-package com.example.newsapp_zonak.ui
+package com.example.newsapp_zonak.ui.viewmodel
 
 import com.example.newsapp_zonak.common.ui.ViewAction
 import com.example.newsapp_zonak.common.ui.ViewEvent
