@@ -5,9 +5,8 @@ import com.example.newsapp_zonak.domain.models.Article
 import com.example.newsapp_zonak.domain.repository.INewsRepository
 import com.example.newsapp_zonak.domain.repository.local.room.INewsLocalDs
 import com.example.newsapp_zonak.domain.repository.remote.INewsRemoteDs
-import javax.inject.Inject
 
-class NewsRepository @Inject constructor(private val newsRemoteDs: INewsRemoteDs,
+class NewsRepository (private val newsRemoteDs: INewsRemoteDs,
                                          private val newsLocalDs: INewsLocalDs): INewsRepository {
     override suspend fun getTopHeadlines(category: String): List<Article> {
         val responseDto = newsRemoteDs.getTopHeadlines(category)
