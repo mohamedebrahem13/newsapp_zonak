@@ -1,5 +1,7 @@
 package com.example.newsapp_zonak.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,15 +12,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,32 +39,51 @@ import com.example.newsapp_zonak.domain.models.Source
 fun ArticleDetailsScreen(
     article: Article,
     navController: NavController,
-    modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .padding(16.dp) // Apply internal padding
-            .verticalScroll(rememberScrollState()) // Enable scrolling
-    ) {
-        // TopAppBar with Back Icon
-        TopAppBar(
-            title = { Text("Article Details") },
-            navigationIcon = {
-                IconButton(onClick = { navController.popBackStack() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back"
-                    )
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Article Details") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                actions = {
+                    // Share Button
+                    IconButton(onClick = {
+                        val shareIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, article.url)
+                            type = "text/plain"
+                        }
+                        context.startActivity(Intent.createChooser(shareIntent, null))
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Share,
+                            contentDescription = "Share"
+                        )
+                    }
                 }
-            }
-        )
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Article Image
-        article.imageUrl?.let { imageUrl ->
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(16.dp)
+                .verticalScroll(scrollState) // Enable scrolling
+        ) {
+            // Article Image
             Image(
-                painter = rememberAsyncImagePainter(model = imageUrl),
+                painter = rememberAsyncImagePainter(model = article.imageUrl),
                 contentDescription = "Article Image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,45 +91,59 @@ fun ArticleDetailsScreen(
                     .padding(bottom = 16.dp), // Space below the image
                 contentScale = ContentScale.Crop
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Article Title
+            Text(
+                text = article.title,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Article Publication Date
+            Text(
+                text = article.publishedAt,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Article Description
+            Text(
+                text = article.description,
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Article Content
+            Text(
+                text = article.content,
+                style = MaterialTheme.typography.bodyMedium
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Button to view article in browser
+            Button(
+                onClick = {
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
+                    context.startActivity(browserIntent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "View Full Article")
+            }
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Article Title
-        Text(
-            text = article.title ?: "No Title",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Article Publication Date
-        Text(
-            text = article.publishedAt ?: "No Publication Date",
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Article Description
-        Text(
-            text = article.description ?: "No Description",
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Article Content
-        Text(
-            text = article.content ?: "No Content Available",
-            style = MaterialTheme.typography.bodyMedium
-        )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun ArticleDetailsScreenPreview() {

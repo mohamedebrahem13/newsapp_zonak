@@ -47,6 +47,7 @@ android {
 dependencies {
     // Dagger Hilt
     implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.dagger.hilt.compiler)
 
     // Retrofit
@@ -66,6 +67,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    // Room dependencies
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime) // Room runtime
+    kapt(libs.androidx.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

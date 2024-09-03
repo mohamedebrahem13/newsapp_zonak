@@ -6,15 +6,16 @@ import com.example.newsapp_zonak.domain.repository.INewsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class GetTopHeadlinesUseCase (
+class GetCachedTopHeadlinesUseCase(
     private val newsRepository: INewsRepository
 ) {
 
     operator fun invoke(category: String): Flow<Resource<List<Article>>> = flow {
         emit(Resource.loading(loading = true))
         try {
-            val response = newsRepository.getTopHeadlines(category)
-            emit(Resource.success(response))
+            // Fetch the cached articles from the local database
+            val cachedArticles = newsRepository.getLocalTopHeadlinesByCategory(category)
+            emit(Resource.success(cachedArticles))
         } catch (e: Exception) {
             emit(Resource.error(e))
         }
