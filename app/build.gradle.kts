@@ -72,6 +72,12 @@ dependencies {
     implementation(libs.androidx.room.runtime) // Room runtime
     kapt(libs.androidx.room.compiler)
 
+    // Turbine
+    testImplementation(libs.turbine)
+
+   // testing
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
