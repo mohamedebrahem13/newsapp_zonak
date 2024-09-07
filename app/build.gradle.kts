@@ -75,7 +75,13 @@ dependencies {
     // Turbine
     testImplementation(libs.turbine)
 
-   // testing
+     //end to end test
+    androidTestImplementation(libs.uiautomator)
+    androidTestImplementation(libs.rules)
+    androidTestImplementation(libs.runner)
+
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    // testing
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.core.ktx)
@@ -90,7 +96,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 

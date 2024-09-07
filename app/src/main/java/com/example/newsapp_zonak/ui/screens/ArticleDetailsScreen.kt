@@ -25,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,7 +53,7 @@ fun ArticleDetailsScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back Button" // Added contentDescription
                         )
                     }
                 },
@@ -67,7 +69,7 @@ fun ArticleDetailsScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Share,
-                            contentDescription = "Share"
+                            contentDescription = "Share Button" // Added contentDescription
                         )
                     }
                 }
@@ -79,16 +81,16 @@ fun ArticleDetailsScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(16.dp)
-                .verticalScroll(scrollState) // Enable scrolling
+                .verticalScroll(scrollState)
         ) {
             // Article Image
             Image(
                 painter = rememberAsyncImagePainter(model = article.imageUrl),
-                contentDescription = "Article Image",
+                contentDescription = "Article Image", // Added contentDescription
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .padding(bottom = 16.dp), // Space below the image
+                    .padding(bottom = 16.dp),
                 contentScale = ContentScale.Crop
             )
 
@@ -98,7 +100,9 @@ fun ArticleDetailsScreen(
             Text(
                 text = article.title,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { contentDescription = "Article Title" }, // Added contentDescription
                 textAlign = TextAlign.Center
             )
 
@@ -108,7 +112,9 @@ fun ArticleDetailsScreen(
             Text(
                 text = article.publishedAt,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { contentDescription = "Article Published Date" }, // Added contentDescription
                 textAlign = TextAlign.Center
             )
 
@@ -117,7 +123,8 @@ fun ArticleDetailsScreen(
             // Article Description
             Text(
                 text = article.description,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.semantics { contentDescription = "Article Description" } // Added contentDescription
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -125,7 +132,8 @@ fun ArticleDetailsScreen(
             // Article Content
             Text(
                 text = article.content,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.semantics { contentDescription = "Article Content" } // Added contentDescription
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -136,14 +144,15 @@ fun ArticleDetailsScreen(
                     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
                     context.startActivity(browserIntent)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semantics { contentDescription = "View Full Article Button" } // Added contentDescription
             ) {
                 Text(text = "View Full Article")
             }
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun ArticleDetailsScreenPreview() {

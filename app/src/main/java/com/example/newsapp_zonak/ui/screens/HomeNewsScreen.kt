@@ -24,6 +24,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -93,12 +96,16 @@ fun HomeNewsScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center)
+                    .semantics { contentDescription = "Loading content" } // Add semantics here
             ) {
                 CircularProgressIndicator()
             }
         } else {
-            // News list
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier
+                    .testTag("news_list")
+                    .semantics { contentDescription = "news_list" } // Semantics for the list
+            ) {
                 items(newsState.topHeadlines) { article ->
                     NewsItem(
                         article = article,
