@@ -4,6 +4,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,7 +75,7 @@ fun HomeNewsScreen(
         }
     }
 
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier) {
         // Category list
         LazyRow(modifier = Modifier.fillMaxWidth()) {
             items(items = NewsCategory.allCategories) { category ->
@@ -104,7 +105,8 @@ fun HomeNewsScreen(
             LazyColumn(
                 modifier = Modifier
                     .testTag("news_list")
-                    .semantics { contentDescription = "news_list" } // Semantics for the list
+                    .semantics { contentDescription = "news_list" } , // Semantics for the list
+                contentPadding = PaddingValues(16.dp) // Add padding to the content// Semantics for the list
             ) {
                 items(newsState.topHeadlines) { article ->
                     NewsItem(

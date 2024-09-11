@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Newsapp_zonakTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold { innerPadding ->
                     val navController = rememberNavController()
                     AppNavHost(navController = navController, modifier = Modifier.padding(innerPadding))
                 }
